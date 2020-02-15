@@ -1,19 +1,36 @@
-# Getting Started
+# Tete de Nivelamento - Itaú Mastertech
 
-### Reference Documentation
-For further reference, please consider the following sections:
+##Tecnologias utilizadas:
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/maven-plugin/)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/htmlsingle/#using-boot-devtools)
+* Java 8
+* Maven
+* Spring Boot
+* H2 Database
+* Swagger UI
 
-### Guides
-The following guides illustrate how to use some features concretely:
+##Subindo a aplicação
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+Após clonar o repositório, é necessário executar o comando:
 
+```mvn spring:boot run```
+
+Após isso, é possível acessar a documentação da API e testar pelo [Swagger](http://localhost:8080/controle-ponto/swagger-ui.html).
+Todos os endpoints estão documentados na ferramenta. Caso 
+
+##Endpoints - Aluno
+
+* `GET /alunos`: lista de todos os alunos, ordenados pelo nome
+* `GET /alunos/{id}`: retorna os dados do aluno com o ID informado
+* `POST /alunos/{id}`: cria o aluno com os dados informados (nome, cpf e/ou e-mail) e, em seguida, retornando o registro criado
+* `PATCH /alunos/{id}`: atualiza os dados do aluno (nome, cpf e/ou e-mail) passando o ID
+* `DELETE /alunos/{id}`: exclui os dados do aluno com o ID informado
+
+##Endpoints - Ponto
+
+* `GET /alunos/{id}/pontos`: lista de todos os pontos batidos pelo aluno com ID informado, ordenados pela data de registro
+* `POST /alunos/{id}/pontos`: registra um ponto do aluno com o ID informado
+
+##Regras de Negócios
+
+* Não é possível apagar um aluno que possua algum registro de ponto
+* A API possui a inteligência de saber se o ponto a ser registrado é entrada ou saída
