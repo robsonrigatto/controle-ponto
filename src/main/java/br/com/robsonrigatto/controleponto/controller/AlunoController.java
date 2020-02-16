@@ -5,6 +5,7 @@ import br.com.robsonrigatto.controleponto.dto.AlunoResponseDTO;
 import br.com.robsonrigatto.controleponto.entity.Aluno;
 import br.com.robsonrigatto.controleponto.mapper.AlunoMapper;
 import br.com.robsonrigatto.controleponto.repository.AlunoRepository;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -38,22 +39,18 @@ public class AlunoController {
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AlunoResponseDTO> findById(@PathVariable("id") Integer id) {
         Optional<Aluno> optional = alunoRepository.findById(id);
-
-        if (!optional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(alunoMapper.entityToDTO(optional.get()), HttpStatus.OK);
+        return optional.map(aluno -> new ResponseEntity<>(alunoMapper.entityToDTO(aluno), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AlunoResponseDTO> create(@RequestBody AlunoRequestDTO dto) {
-        boolean nomeBlank = StringUtils.isBlank(dto.getNome());
-        boolean cpfBlank = StringUtils.isBlank(dto.getCpf());
-        boolean emailBlank = StringUtils.isBlank(dto.getEmail());
+        List<String> requiredFields = Lists.newArrayList();
+        if(StringUtils.isBlank(dto.getNome())) requiredFields.add("nome");
+        if(StringUtils.isBlank(dto.getCpf()))  requiredFields.add("cpf");
+        if(StringUtils.isBlank(dto.getEmail())) requiredFields.add("email");
 
-        if(nomeBlank || cpfBlank || emailBlank) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Todos os campos são obrigatórios");
+        if(!requiredFields.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, String.format("Os campos %s são obrigatórios", requiredFields));
         }
 
         Aluno entity = this.alunoMapper.dtoToNewEntity(dto);
@@ -86,7 +83,7 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
         Optional<Aluno> optional = this.alunoRepository.findById(id);
         if(!optional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

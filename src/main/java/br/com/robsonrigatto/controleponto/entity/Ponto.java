@@ -13,7 +13,7 @@ public class Ponto {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id_aluno")
+    @JoinColumn(name = "id_aluno", foreignKey = @ForeignKey(name = "FK_PONTO_ALUNO"))
     private Aluno aluno;
 
     @Column(name = "data_hora_batida")

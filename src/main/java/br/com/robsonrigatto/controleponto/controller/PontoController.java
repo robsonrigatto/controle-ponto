@@ -45,13 +45,13 @@ public class PontoController {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "é obrigatório informar um usuário válido");
         }
 
-        Aluno aluno = alunoOptional.get();
         Ponto ponto = new Ponto();
+        Aluno aluno = alunoOptional.get();
         ponto.setAluno(aluno);
         ponto.setDataHoraBatida(LocalDateTime.now());
 
         Optional<Ponto> pontoOptional = this.pontoRepository.findLastPontoByIdAluno(idAluno);
-        TipoBatida tipoUltimaBatida = pontoOptional.isPresent() ? pontoOptional.get().getTipoBatida() : null;
+        TipoBatida tipoUltimaBatida = pontoOptional.map(Ponto::getTipoBatida).orElse(null);
         TipoBatida tipoBatida = this.pontoHelper.getProximoPonto(tipoUltimaBatida);
         ponto.setTipoBatida(tipoBatida);
 
