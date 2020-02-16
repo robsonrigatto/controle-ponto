@@ -60,7 +60,7 @@ public class AlunoController {
         return new ResponseEntity<>(this.alunoMapper.entityToDTO(entity), HttpStatus.CREATED);
     }
 
-    @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AlunoResponseDTO> update(@PathVariable("id") Integer id, @RequestBody AlunoRequestDTO dto) {
         Optional<Aluno> optional = this.alunoRepository.findById(id);
         if(!optional.isPresent()) {

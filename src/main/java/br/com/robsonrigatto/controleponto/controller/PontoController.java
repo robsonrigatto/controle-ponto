@@ -11,6 +11,7 @@ import br.com.robsonrigatto.controleponto.repository.AlunoRepository;
 import br.com.robsonrigatto.controleponto.repository.PontoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class PontoController {
     public ResponseEntity<PontoResponseDTO> create(@PathVariable("id") Integer idAluno) {
         Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
         if(!alunoOptional.isPresent()) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "é obrigatório informar um usuário válido");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "é obrigatório informar um aluno válido");
         }
 
         Ponto ponto = new Ponto();
@@ -59,11 +60,11 @@ public class PontoController {
         return new ResponseEntity<>(pontoMapper.entityToDTO(ponto, true), HttpStatus.CREATED);
     }
 
-    @GetMapping("/alunos/{id}/pontos")
-    public ResponseEntity<PontoPorAlunoResponseDTO> findAllByIdUsuario(@PathVariable("id") Integer idAluno) {
+    @GetMapping(path = "/alunos/{id}/pontos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PontoPorAlunoResponseDTO> findAllByIdAluno(@PathVariable("id") Integer idAluno) {
         Optional<Aluno> alunoOptional = this.alunoRepository.findById(idAluno);
         if(!alunoOptional.isPresent()) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "é obrigatório informar um usuário válido");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "é obrigatório informar um aluno válido");
         }
 
         List<Ponto> pontos = this.pontoRepository.findAllByIdAluno(idAluno);

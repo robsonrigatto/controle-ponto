@@ -22,7 +22,7 @@ Todos os endpoints estão documentados na ferramenta. Caso
 * `GET /alunos`: lista de todos os alunos, ordenados pelo nome
 * `GET /alunos/{id}`: retorna os dados do aluno com o ID informado
 * `POST /alunos/{id}`: cria o aluno com os dados informados (nome, cpf e/ou e-mail) e, em seguida, retornando o registro criado
-* `PATCH /alunos/{id}`: atualiza os dados do aluno (nome, cpf e/ou e-mail) passando o ID
+* `PUT /alunos/{id}`: atualiza os dados do aluno (nome, cpf e/ou e-mail) passando o ID
 * `DELETE /alunos/{id}`: exclui os dados do aluno com o ID informado
 
 ## Endpoints - Ponto
