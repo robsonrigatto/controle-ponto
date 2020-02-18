@@ -1,4 +1,4 @@
-# Tete de Nivelamento - Itaú Mastertech
+# Teste de Nivelamento - Itaú Mastertech
 
 ## Tecnologias utilizadas:
 
